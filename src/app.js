@@ -31,7 +31,7 @@ const authenticationMiddleware = (req, res, next) => {
     if (token == null) {
         return res.sendStatus(401);
     }
-    jwt.verify(token, SECRET_KEY, (err, user) => {
+    jwt.verify(token, config.SECRET_KEY, (err, user) => {
         if (err) {
             return res.sendStatus(403);
         }
@@ -74,7 +74,7 @@ app.post('/login', async (req, res) => {
         }
         bcrypt.compare(req.body.password, hashedPassword, (err, result) => {
             if (result) {
-                const token = jwt.sign({data: req.body.username}, SECRET_KEY, {expiresIn: '1800s'});
+                const token = jwt.sign({data: req.body.username}, config.SECRET_KEY, {expiresIn: '1800s'});
                 res.json({
                     token: token
                 });
