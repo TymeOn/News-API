@@ -1,0 +1,17 @@
+site_name: News API Documentation
+nav:
+    - Home: index.md
+    - Authentication: auth.md
+    - Routes: routes.md
+    - Errors: errors.md
+theme:
+  name: material
+  palette:     
+      scheme: slate
+      primary: deep orange
+      accent: deep orange
+  icon:
+    repo: fontawesome/brands/github
+repo_url: https://github.com/TymeOn/News-API
+edit_uri: ""
+copyright: Copyright &copy; 2021 Milan VERY-GRIETTE
