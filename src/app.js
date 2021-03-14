@@ -91,7 +91,7 @@ app.post('/login', async (req, res) => {
 // READ
 // ----
 
-app.get('/articles', async (req, res) => {
+app.get('/articles', authenticationMiddleware, async (req, res) => {
     try {
         res.send(await articleDAO.getAll());
     } catch (err) { 
@@ -99,7 +99,7 @@ app.get('/articles', async (req, res) => {
     }
 });
 
-app.get('/articles/:id', async (req, res) => {
+app.get('/articles/:id', authenticationMiddleware, async (req, res) => {
     try {
         const data = await articleDAO.get(req.params.id);
         data ? res.send(data) : res.status(404).send(RESSOURCE_NOT_FOUND);
@@ -117,7 +117,7 @@ app.get('/authors', authenticationMiddleware, async (req, res) => {
     }
 });
 
-app.get('/authors/:id', async (req, res) => {
+app.get('/authors/:id', authenticationMiddleware, async (req, res) => {
     try {
         const data = await authorDAO.get(req.params.id);
         data ? res.send(data) : res.status(404).send(RESSOURCE_NOT_FOUND);
@@ -130,7 +130,7 @@ app.get('/authors/:id', async (req, res) => {
 // CREATE
 // ------
 
-app.post('/articles', async (req, res) => {
+app.post('/articles', authenticationMiddleware, async (req, res) => {
     try {
         const body = req.body;
         res.status(201).send(await articleDAO.add(body.title, body.content, new Author(body.author.id, body.author.name)));
@@ -139,7 +139,7 @@ app.post('/articles', async (req, res) => {
     }
 });
 
-app.post('/authors', async (req, res) => {
+app.post('/authors', authenticationMiddleware, async (req, res) => {
     try {
         const body = req.body;
         res.status(201).send(await authorDAO.add(body.name));
@@ -152,7 +152,7 @@ app.post('/authors', async (req, res) => {
 // UPDATE
 // ------
 
-app.put('/articles/:id', async (req, res) => {
+app.put('/articles/:id', authenticationMiddleware, async (req, res) => {
     try {
         const body = req.body;
         const data = await articleDAO.update(new Article(req.params.id, body.title, body.content, body.creationDate, body.updateDate, body.author.id));
@@ -162,7 +162,7 @@ app.put('/articles/:id', async (req, res) => {
     }
 });
 
-app.put('/authors/:id', async (req, res) => {
+app.put('/authors/:id', authenticationMiddleware, async (req, res) => {
     try {
         const body = req.body;
         const data = await authorDAO.update(new Author(req.params.id, body.name));
@@ -176,7 +176,7 @@ app.put('/authors/:id', async (req, res) => {
 // DELETE
 // ------
 
-app.delete('/articles/:id', async (req, res) => {
+app.delete('/articles/:id', authenticationMiddleware, async (req, res) => {
     try {
         const data = await articleDAO.remove(req.params.id);
         data ? res.send(data) : res.status(404).send(RESSOURCE_NOT_FOUND);
@@ -185,7 +185,7 @@ app.delete('/articles/:id', async (req, res) => {
     }
 });
 
-app.delete('/authors/:id', async (req, res) => {
+app.delete('/authors/:id', authenticationMiddleware, async (req, res) => {
     try {
         const data = await authorDAO.remove(req.params.id);
         data ? res.send(data) : res.status(404).send(RESSOURCE_NOT_FOUND);
