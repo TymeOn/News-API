@@ -7,6 +7,7 @@ import { UserDAO } from './dao/UserDAO.js';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import config from './config/config.js';
 
 
 // SETUP
@@ -15,14 +16,10 @@ import bcrypt from 'bcrypt';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const port = '8080';
 const articleDAO = new ArticleDAO();
 const authorDAO = new AuthorDAO();
 const userDAO = new UserDAO();
-const SECRET_KEY = 'my-secret-key';
-const SALT_ROUNDS = 10;
 const RESSOURCE_NOT_FOUND = "The requested ressource is not available."
-const INVALID_CREDENTIALS = "."
 
 
 // AUTHENTICATION MIDDLEWARE
@@ -55,7 +52,7 @@ app.post('/register', async (req, res) => {
         }
         const tempUser = await userDAO.getHashedPassword(body.username);
         if(!tempUser) {
-            bcrypt.hash(body.password, 10, async function(err, hash) {
+            bcrypt.hash(body.password, config.SALT_ROUNDS, async function(err, hash) {
                 res.status(201).send(await userDAO.register(new User(body.username, hash)));
             }); 
         } else {
@@ -202,6 +199,6 @@ app.delete('/authors/:id', async (req, res) => {
 // STARTUP
 // -------
 
-app.listen(port, () => {
-    console.log('News-API running on port ' + port);
+app.listen(config.PORT, () => {
+    console.log('News-API running on port ' + config.PORT);
 });

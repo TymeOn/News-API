@@ -9,8 +9,8 @@ export class DB {
                     user: config.USER,
                     password: config.PASSWORD,
                     database: config.DBNAME,
-                    host: config.HOST,
-                    port: config.PORT
+                    host: config.DBHOST,
+                    port: config.DBPORT
                 });
                 DB.client = await pool.connect();
                 const query1 = `
