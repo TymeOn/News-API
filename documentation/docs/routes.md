@@ -30,8 +30,11 @@ Allows a user to create an account.
 
 **Response**
 
-```
-HTTP 500 Status Code
+```json
+{
+  "username": "<username>",
+  "password": "<hashed password>"
+}
 ```
 
 ---
